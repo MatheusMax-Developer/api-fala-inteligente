@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API DE VOZ</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<style>
+    /* 
+  Reconfigurando o estilo padrão de todos os elementos HTML
+*/
+    * {
+        text-decoration: none;
+        list-style: none;
+    }
+
+
+    h1 {
+        text-align: center;
+        font-size: 23px;
+    }
+
+    button {
+    
+    }
+
+    button:active {
+        background-color: #d60202;
+    }
+</style>
+
+<body>
+    <button id="record">
+        Gravar
+    </button>
+
+    <h1 id="result" style="display:none; color: white;">Olá</h1>
+    <input type="text " id="idUnico">
+    <script src="main.js"></script>
+    <script>
+
+        
+        
+    </script>
+    <script>
+    (function() {
+
+const buttonRecord = document.getElementById("record");
+const resultWrap = document.getElementById("result");
+
+if (window.SpeechRecognition || window.webkitSpeechRecognition) {
+ 
+  const MySpeech = new webkitSpeechRecognition();
+
+  MySpeech.lang = "pt-BR";
+  
+  buttonRecord.addEventListener('click', () => {
+      try {
+          MySpeech.start();
+          resultWrap.innerHTML = '<h1 style="color: white;">Estou ouvindo...';
+      }catch(e) {
+          alert('Erro:  ' + e.message)
+      }
+  }, false);
+
+   MySpeech.addEventListener('result', (event) => {
+      const sentence = event.results[0][0].transcript;
+     var variavel1 = resultWrap.innerHTML = sentence;
+     document.getElementById("idUnico").value = variavel1; 
+      if(sentence.toLowerCase() == 'preto') 
+          document.body.classList.add('dark')
+
+      if (sentence.toLowerCase() == 'branco') 
+          document.body.classList.remove('dark') 
+
+      if (sentence.toLowerCase() == 'juliano') 
+          document.body.classList.remove('dark')
+
+      if(sentence.toLowerCase() == 'Adam') 
+          document.body.classList.add('red')
+  }, false);
+  
+  MySpeech.addEventListener('error', (event) => {
+      resultWrap.innerHTML = '<h1 style="color: white;">Não entendi!';
+  }, false);
+} else {
+  resultWrap.innerHTML = "Seu navegador não suporta HTML5"
+  buttonRecord.style.display = 'none';
+}
+})();
+    </script>
+    
+</body>
+
+</html>
